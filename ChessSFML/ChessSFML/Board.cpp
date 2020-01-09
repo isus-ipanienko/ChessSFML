@@ -2,8 +2,8 @@
 
 void Board::movePiece(std::string pos)
 {
-	board[int(pos[2]) - 97][int(pos[3])] = board[int(pos[0]) - 97][int(pos[1])];
-	board[int(pos[0]) - 97][int(pos[1])] = nullptr;
+	board[int(pos[2]) - 97][int(pos[3]) - 49] = board[int(pos[0]) - 97][int(pos[1]) - 49];
+	board[int(pos[0]) - 97][int(pos[1]) - 49] = nullptr;
 	return;
 };
 
@@ -14,6 +14,10 @@ Piece*& Board::getPiece(std::string pos)
 Piece*& Board::getPiece(int i, int j)
 {
 	return board[i][j];
+};
+Piece*& Board::getPiece(sf::Vector2i v)
+{
+	return board[v.x][v.y];
 };
 
 void Board::setBoard(std::string pos, bool reset)
@@ -81,7 +85,7 @@ void Board::loadBoard()
 	for (int i = 0; i < 8; i++) {
 		for (int j = 0; j < 8; j++) {
 			if (board[i][j])
-				board[i][j]->getSprite().setPosition(i * 50, j * 50);
+				board[i][j]->getSprite().setPosition(i * 50, (7 - j) * 50);
 		}
 	}
 }

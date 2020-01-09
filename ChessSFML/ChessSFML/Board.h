@@ -9,6 +9,7 @@ public:
 	void movePiece(std::string);
 	Piece*& getPiece(std::string);
 	Piece*& getPiece(int, int);
+	Piece*& getPiece(sf::Vector2i);
 	void setBoard(std::string = "start", bool = false);
 	void loadBoard();
 	Board();

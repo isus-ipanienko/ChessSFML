@@ -11,28 +11,6 @@ bool Piece::isWhite()
 	return colour;
 };
 
-void Piece::setTaken(bool newTaken)
-{
-	taken = newTaken;
-	return;
-};
-
-bool Piece::isTaken()
-{
-	return taken;
-};
-
-void Piece::setMoved(bool newMoved)
-{
-	moved = newMoved;
-	return;
-};
-
-bool Piece::didMove()
-{
-	return moved;
-};
-
 void Piece::setType(std::string newType)
 {
 	type = newType;

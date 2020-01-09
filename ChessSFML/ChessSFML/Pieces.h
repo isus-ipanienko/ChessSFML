@@ -5,18 +5,12 @@
 class Piece
 {
 protected:
-	bool taken;
 	bool colour; // white = 1, black = 0
-	bool moved;
 	std::string type;
 	sf::Sprite sprite;
 public:
 	void setColour(bool);
 	bool isWhite();
-	void setTaken(bool);
-	bool isTaken();
-	void setMoved(bool);
-	bool didMove();
 	void setType(std::string);
 	std::string getType();
 	sf::Sprite& getSprite();
