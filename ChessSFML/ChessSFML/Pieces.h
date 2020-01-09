@@ -1,13 +1,15 @@
 #pragma once
+#include <SFML/Graphics.hpp>
 #include <string>
 
 class Piece
 {
-private:
+protected:
 	bool taken;
 	bool colour; // white = 1, black = 0
 	bool moved;
 	std::string type;
+	sf::Sprite sprite;
 public:
 	void setColour(bool);
 	bool isWhite();
@@ -17,6 +19,8 @@ public:
 	bool didMove();
 	void setType(std::string);
 	std::string getType();
+	sf::Sprite& getSprite();
+	static sf::Texture textures[12];
 };
 
 
@@ -59,11 +63,4 @@ class King : public Piece
 {
 public:
 	King(bool);
-};
-
-
-class Empty : public Piece
-{
-public:
-	Empty(bool);
 };

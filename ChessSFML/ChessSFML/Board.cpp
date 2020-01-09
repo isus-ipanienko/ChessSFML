@@ -7,9 +7,13 @@ void Board::movePiece(std::string pos)
 	return;
 };
 
-Piece* Board::getPiece(std::string pos)
+Piece*& Board::getPiece(std::string pos)
 {
 	return board[int(pos[0]) - 97][int(pos[1])];
+};
+Piece*& Board::getPiece(int i, int j)
+{
+	return board[i][j];
 };
 
 void Board::setBoard(std::string pos, bool reset)
@@ -71,7 +75,43 @@ void Board::setBoard(std::string pos, bool reset)
 	}
 }
 
+
+void Board::loadBoard()
+{
+	for (int i = 0; i < 8; i++) {
+		for (int j = 0; j < 8; j++) {
+			if (board[i][j])
+				board[i][j]->getSprite().setPosition(i * 50, j * 50);
+		}
+	}
+}
+
+
+sf::Texture Piece::textures[12];
 Board::Board()
 {
+	Piece::textures[0].loadFromFile("img/white_pawn.png");
+	Piece::textures[1].loadFromFile("img/black_pawn.png");
+	Piece::textures[2].loadFromFile("img/white_rook.png");
+	Piece::textures[3].loadFromFile("img/black_rook.png");
+	Piece::textures[4].loadFromFile("img/white_knight.png");
+	Piece::textures[5].loadFromFile("img/black_knight.png");
+	Piece::textures[6].loadFromFile("img/white_bishop.png");
+	Piece::textures[7].loadFromFile("img/black_bishop.png");
+	Piece::textures[8].loadFromFile("img/white_queen.png");
+	Piece::textures[9].loadFromFile("img/black_queen.png");
+	Piece::textures[10].loadFromFile("img/white_king.png");
+	Piece::textures[11].loadFromFile("img/black_king.png");
+
 	setBoard();
+	loadBoard();
+}
+
+Board::~Board()
+{
+	for (int j = 0; j < 8; j++)
+	{
+		for (int i = 0; i < 8; i++)
+			delete board[i][j];
+	}
 }
