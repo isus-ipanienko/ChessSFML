@@ -7,6 +7,26 @@ void Board::movePiece(std::string pos)
 	return;
 };
 
+void Board::take(sf::Vector2i v)
+{
+	board[v.x][v.y] = nullptr;
+	return;
+};
+
+void Board::place(sf::Vector2i v, char p, bool colour)
+{
+	if (p == 'q')
+		board[v.x][v.y] = new Queen(colour);
+	if (p == 'r')
+		board[v.x][v.y] = new Rook(colour);
+	if (p == 'k')
+		board[v.x][v.y] = new Knight(colour);
+	if (p == 'b')
+		board[v.x][v.y] = new Bishop(colour);
+	board[v.x][v.y]->getSprite().setPosition(v.x * 50, (7 - v.y) * 50);
+	return;
+};
+
 Piece*& Board::getPiece(std::string pos)
 {
 	return board[int(pos[0]) - 97][int(pos[1])];

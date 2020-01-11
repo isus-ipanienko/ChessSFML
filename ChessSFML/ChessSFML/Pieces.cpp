@@ -28,6 +28,69 @@ sf::Sprite& Piece::getSprite()
 };
 
 
+bool Pawn::checkLegality(sf::Vector2i prevPos, sf::Vector2i nextPos)
+{
+	int dx = nextPos.x - prevPos.x;
+	int dy = nextPos.y - prevPos.y;
+
+	if (dx == 0)
+	{
+		if (isWhite())
+		{
+			if (dy == 1)
+				return true;
+		}
+		else
+		{
+			if (dy == -1)
+				return true;
+		}
+	}
+	return false;
+}
+
+bool Rook::checkLegality(sf::Vector2i prevPos, sf::Vector2i nextPos)
+{
+	int dx = std::abs(prevPos.x - nextPos.x);
+	int dy = std::abs(prevPos.y - nextPos.y);
+
+	return dx == 0 || dy == 0;
+}
+
+bool Bishop::checkLegality(sf::Vector2i prevPos, sf::Vector2i nextPos)
+{
+	int dx = std::abs(prevPos.x - nextPos.x);
+	int dy = std::abs(prevPos.y - nextPos.y);
+
+	return dx == dy;
+}
+
+bool Knight::checkLegality(sf::Vector2i prevPos, sf::Vector2i nextPos)
+{
+	int dx = std::abs(prevPos.x - nextPos.x);
+	int dy = std::abs(prevPos.y - nextPos.y);
+
+	if ((0 < dx && dx < 3) && (0 < dy && dy < 3)) return dx + dy < 4;
+	return false;
+}
+
+bool Queen::checkLegality(sf::Vector2i prevPos, sf::Vector2i nextPos)
+{
+	int dx = std::abs(prevPos.x - nextPos.x);
+	int dy = std::abs(prevPos.y - nextPos.y);
+
+	return dx == 0 || dy == 0 || dx == dy;
+}
+
+bool King::checkLegality(sf::Vector2i prevPos, sf::Vector2i nextPos)
+{
+	int dx = std::abs(prevPos.x - nextPos.x);
+	int dy = std::abs(prevPos.y - nextPos.y);
+	
+	return dx + dy < 3 && dx < 2 && dy < 2;
+}
+
+
 Pawn::Pawn(bool newColour)
 {
 	setColour(newColour);

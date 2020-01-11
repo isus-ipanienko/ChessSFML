@@ -1,5 +1,7 @@
 ﻿  Board.cpp
-C:\Users\Enter\source\repos\ChessSFML\ChessSFML\Board.cpp(75,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Enter\source\repos\ChessSFML\ChessSFML\Board.cpp(88,58): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\Enter\source\repos\ChessSFML\ChessSFML\Board.cpp(88,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Enter\source\repos\ChessSFML\ChessSFML\Board.cpp(26,63): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Enter\source\repos\ChessSFML\ChessSFML\Board.cpp(26,47): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Enter\source\repos\ChessSFML\ChessSFML\Board.cpp(95,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Enter\source\repos\ChessSFML\ChessSFML\Board.cpp(108,58): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\Enter\source\repos\ChessSFML\ChessSFML\Board.cpp(108,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   ChessSFML.vcxproj -> C:\Users\Enter\source\repos\ChessSFML\Debug\ChessSFML.exe

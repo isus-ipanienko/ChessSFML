@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <string>
+#include <math.h>
 
 class Piece
 {
@@ -15,12 +16,14 @@ public:
 	std::string getType();
 	sf::Sprite& getSprite();
 	static sf::Texture textures[12];
+	virtual bool checkLegality(sf::Vector2i, sf::Vector2i) = 0;
 };
 
 
 class Pawn : public Piece
 {
 public:
+	bool checkLegality(sf::Vector2i, sf::Vector2i);
 	Pawn(bool);
 };
 
@@ -28,6 +31,7 @@ public:
 class Rook : public Piece
 {
 public:
+	bool checkLegality(sf::Vector2i, sf::Vector2i);
 	Rook(bool);
 };
 
@@ -35,6 +39,7 @@ public:
 class Bishop : public Piece
 {
 public:
+	bool checkLegality(sf::Vector2i, sf::Vector2i);
 	Bishop(bool);
 };
 
@@ -42,6 +47,7 @@ public:
 class Knight : public Piece
 {
 public:
+	bool checkLegality(sf::Vector2i, sf::Vector2i);
 	Knight(bool);
 };
 
@@ -49,6 +55,7 @@ public:
 class Queen : public Piece
 {
 public:
+	bool checkLegality(sf::Vector2i, sf::Vector2i);
 	Queen(bool);
 };
 
@@ -56,5 +63,6 @@ public:
 class King : public Piece
 {
 public:
+	bool checkLegality(sf::Vector2i, sf::Vector2i);
 	King(bool);
 };
