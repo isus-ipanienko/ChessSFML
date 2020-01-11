@@ -216,6 +216,45 @@ bool GameEngine::isStillCheck(std::string move) // TODO
 
 	// end knight
 
+	// pawn
+	if (playerTurn) // white king
+	{
+		if (kingPos.x - 1 > -1 && kingPos.y + 1 < 8)
+		{
+			if (TestBoard.getPiece(kingPos.x - 1, kingPos.y + 1))
+				if (TestBoard.getPiece(kingPos.x - 1, kingPos.y + 1)->getType() == "Pawn"
+					&& TestBoard.getPiece(kingPos.x - 1, kingPos.y + 1)->isWhite() != playerTurn)
+					return true;
+		}
+		else if (kingPos.x + 1 < 8 && kingPos.y + 1 < 8)
+		{
+			if (TestBoard.getPiece(kingPos.x + 1, kingPos.y + 1))
+				if (TestBoard.getPiece(kingPos.x + 1, kingPos.y + 1)->getType() == "Pawn"
+					&& TestBoard.getPiece(kingPos.x + 1, kingPos.y + 1)->isWhite() != playerTurn)
+					return true;
+		}
+
+	}
+	else // black king
+	{
+		if (kingPos.x - 1 > -1 && kingPos.y - 1 > -1)
+		{
+			if (TestBoard.getPiece(kingPos.x - 1, kingPos.y - 1))
+				if (TestBoard.getPiece(kingPos.x - 1, kingPos.y - 1)->getType() == "Pawn"
+					&& TestBoard.getPiece(kingPos.x - 1, kingPos.y - 1)->isWhite() != playerTurn)
+					return true;
+		}
+		else if (kingPos.x + 1 < 8 && kingPos.y - 1 > -1)
+		{
+			if (TestBoard.getPiece(kingPos.x + 1, kingPos.y - 1))
+				if (TestBoard.getPiece(kingPos.x + 1, kingPos.y - 1)->getType() == "Pawn"
+					&& TestBoard.getPiece(kingPos.x + 1, kingPos.y - 1)->isWhite() != playerTurn)
+					return true;
+		}
+	}
+
+	// end pawn
+
 	return check;
 }
 bool GameEngine::isPseudoLegal(std::string move) // doesn't check pins
@@ -456,6 +495,7 @@ void GameEngine::play()
 					playerTurn = true;
 					gameState = "game";
 					turnsWithNoCapture = 0;
+					backgroundTexture.loadFromFile("img/board.bmp");
 				}
 			
 			///////////
@@ -516,6 +556,9 @@ void GameEngine::play()
 
 							playerTurn = !playerTurn;
 							updateGameState();
+							if (gameState == "draw")
+								backgroundTexture.loadFromFile("img/boardDraw.bmp");
+
 						}
 						else
 						{
