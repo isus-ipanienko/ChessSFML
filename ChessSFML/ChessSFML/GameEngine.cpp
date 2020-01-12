@@ -369,25 +369,25 @@ bool GameEngine::isPseudoLegal(std::string move) // doesn't check pins
 
 		if (tempName == "King")
 		{ // castling override
-			if (move == "e1c1" && position.find("e1") == -1)
+			if (move == "e1c1" && position.find("e1") == -1 && position.find("a1") == -1)
 			{
 				ChessBoard.movePiece("a1d1");
 				ChessBoard.getPiece(3, 0)->getSprite().setPosition(150, 350);
 				return true;
 			}
-			if (move == "e1g1" && position.find("e1") == -1)
+			if (move == "e1g1" && position.find("e1") == -1 && position.find("h1") == -1)
 			{
 				ChessBoard.movePiece("h1f1");
 				ChessBoard.getPiece(5, 0)->getSprite().setPosition(250, 350);
 				return true;
 			}
-			if (move == "e8c8" && position.find("e8") == -1)
+			if (move == "e8c8" && position.find("e8") == -1 && position.find("a8") == -1)
 			{
 				ChessBoard.movePiece("a8d8");
 				ChessBoard.getPiece(3, 7)->getSprite().setPosition(150, 0);
 				return true;
 			}
-			if (move == "e8g8" && position.find("e8") == -1)
+			if (move == "e8g8" && position.find("e8") == -1 && position.find("h8") == -1)
 			{
 				ChessBoard.movePiece("h8f8");
 				ChessBoard.getPiece(5, 7)->getSprite().setPosition(250,0);

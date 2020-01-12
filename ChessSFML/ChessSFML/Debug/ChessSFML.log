@@ -4,4 +4,36 @@ C:\Users\Enter\source\repos\ChessSFML\ChessSFML\Board.cpp(26,47): warning C4244:
 C:\Users\Enter\source\repos\ChessSFML\ChessSFML\Board.cpp(96,21): warning C4018: '<': signed/unsigned mismatch
 C:\Users\Enter\source\repos\ChessSFML\ChessSFML\Board.cpp(135,58): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 C:\Users\Enter\source\repos\ChessSFML\ChessSFML\Board.cpp(135,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  GameEngine.cpp
+C:\Users\Enter\source\repos\ChessSFML\ChessSFML\GameEngine.cpp(516,110): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Enter\source\repos\ChessSFML\ChessSFML\GameEngine.cpp(516,93): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\Enter\source\repos\ChessSFML\ChessSFML\GameEngine.cpp(538,61): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\Enter\source\repos\ChessSFML\ChessSFML\GameEngine.cpp(538,38): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+  main.cpp
+  Pieces.cpp
+  Generating Code...
   ChessSFML.vcxproj -> C:\Users\Enter\source\repos\ChessSFML\Debug\ChessSFML.exe
