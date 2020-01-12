@@ -96,6 +96,25 @@ void Board::setBoard(std::string pos, bool reset, std::string proms)
 		for (int i = 0; i < (pos.length() / 5); i++)
 		{
 			movePiece(pos.substr(5 * i, 4));
+
+			// castling
+			if (pos.substr(5 * i, 4) == "e1c1" && board[2][0]->getType() == "King")
+			{
+				movePiece("a1d1");
+			}
+			if (pos.substr(5 * i, 4) == "e1g1" && board[6][0]->getType() == "King")
+			{
+				movePiece("h1f1");
+			}
+			if (pos.substr(5 * i, 4) == "e8c8" && board[2][7]->getType() == "King")
+			{
+				movePiece("a8d8");
+			}
+			if (pos.substr(5 * i, 4) == "e8g8" && board[6][7]->getType() == "King")
+			{
+				movePiece("h8f8");
+			} // end castling
+
 			if (proms.find(i) != -1) // promote
 			{
 				if (1 + int(proms[2*j]) %2)
