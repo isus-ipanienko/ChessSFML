@@ -40,7 +40,7 @@ Piece*& Board::getPiece(sf::Vector2i v)
 	return board[v.x][v.y];
 };
 
-void Board::setBoard(std::string pos, bool reset)
+void Board::setBoard(std::string pos, bool reset, std::string proms)
 {
 	if (reset) {
 		for (int j = 0; j < 8; j++)
@@ -92,9 +92,36 @@ void Board::setBoard(std::string pos, bool reset)
 	}
 	else {
 		setBoard("start", true);
+		int j = 0;
 		for (int i = 0; i < (pos.length() / 5); i++)
 		{
 			movePiece(pos.substr(5 * i, 4));
+			if (proms.find(i) != -1) // promote
+			{
+				if (1 + int(proms[2*j]) %2)
+				{
+					if (proms[2 * j + 1] == 'q')
+						board[pos[5 * int(proms[2 * j]) + 2] - 97][7] = new Queen(true);
+					if (proms[2 * j + 1] == 'b')
+						board[pos[5 * int(proms[2 * j]) + 2] - 97][7] = new Bishop(true);
+					if (proms[2 * j + 1] == 'k')
+						board[pos[5 * int(proms[2 * j]) + 2] - 97][7] = new Knight(true);
+					if (proms[2 * j + 1] == 'r')
+						board[pos[5 * int(proms[2 * j]) + 2] - 97][7] = new Rook(true);
+				}
+				else
+				{
+					if (proms[2 * j + 1] == 'q')
+						board[pos[5 * int(proms[2 * j]) + 2] - 97][0] = new Queen(true);
+					if (proms[2 * j + 1] == 'b')
+						board[pos[5 * int(proms[2 * j]) + 2] - 97][0] = new Bishop(true);
+					if (proms[2 * j + 1] == 'k')
+						board[pos[5 * int(proms[2 * j]) + 2] - 97][0] = new Knight(true);
+					if (proms[2 * j + 1] == 'r')
+						board[pos[5 * int(proms[2 * j]) + 2] - 97][0] = new Rook(true);
+				}
+				j++;
+			}
 		}
 	}
 }

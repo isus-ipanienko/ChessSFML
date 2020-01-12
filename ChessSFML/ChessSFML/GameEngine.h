@@ -4,30 +4,34 @@
 class GameEngine
 {
 private:
-	Board ChessBoard;
-	std::string position;
+	Board ChessBoard; // the board's representation in the pc
+	std::string position; // moves taken during the game
 
-	sf::Vector2f lastPosition;
-	sf::Vector2f nextPosition;
+	sf::Vector2f lastPosition; // in pixels
+	sf::Vector2f nextPosition; // in pixels
 
-	sf::Vector2i mousePosition;
-	sf::Vector2f draggingDistance;
+	sf::Vector2i mousePosition; // in pixels
+	sf::Vector2f draggingDistance; // in pixels
 
-	sf::Vector2i draggedCoords;
-	bool dragging;
+	sf::Vector2i draggedCoords; // which piece is being dragged?
+	bool dragging; // is a piece being dragged?
 
 	bool playerTurn; // white = 1, black = 0
+	int turn; // which turn is it?
 
-	std::string gameState;
-	int turnsWithNoCapture;
+	std::string gameState; // current game state
+	int turnsWithNoCapture; // draw by 50 turns counter
+
+	void updateGameState(); // check for gamestate updates
+	void promote(std::string); // promotion pop-up
+	std::string promotions; // when and what to?
+	std::string convert2Chess(sf::Vector2f); // convert coordinates to chess notation
+
+	// move validation
+	bool isStillCheck(std::string); // is my king in check?
+	bool isPseudoLegal(std::string); // is this move legal? (checks ommited)
+	bool isValidMove(std::string); // is this move valid?
 public:
-	Board getBoard();
-	void updateGameState();
-	void promote(std::string);
-	std::string convert2Chess(sf::Vector2f);
-	bool isStillCheck(std::string);
-	bool isPseudoLegal(std::string);
-	bool isValidMove(std::string);
 	GameEngine();
-	void play();
+	void play(); // play the game
 };

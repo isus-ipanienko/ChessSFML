@@ -1,9 +1,5 @@
 #include "GameEngine.h"
 
-Board GameEngine::getBoard()
-{
-	return ChessBoard;
-}
 
 GameEngine::GameEngine()
 {
@@ -12,6 +8,8 @@ GameEngine::GameEngine()
 	playerTurn = true;
 	gameState = "game";
 	turnsWithNoCapture = 0;
+	turn = 0;
+	promotions = "";
 }
 
 void GameEngine::updateGameState()
@@ -33,19 +31,19 @@ std::string GameEngine::convert2Chess(sf::Vector2f v)
 	return temp;
 }
 
-bool GameEngine::isStillCheck(std::string move) // TODO
+bool GameEngine::isStillCheck(std::string move)
 {
 	std::string tempPos = position + move + " ";
 	bool check = false; 
 	sf::Vector2i kingPos = sf::Vector2i(-1, -1);
 	Board TestBoard = Board();
 
-	TestBoard.setBoard(position);
+	TestBoard.setBoard(position, false, promotions);
 	TestBoard.movePiece(move);
 
 	for (int i = 0; i < 8; i++)
 	for (int j = 0; j < 8; j++)
-	{
+	{ // find the king
 		if(TestBoard.getPiece(i, j))
 		if (TestBoard.getPiece(i, j)->getType() == "King"
 			&& TestBoard.getPiece(i, j)->isWhite() == playerTurn)
@@ -56,7 +54,7 @@ bool GameEngine::isStillCheck(std::string move) // TODO
 		if (kingPos.x != -1) break;
 	}
 
-	// check for queen and rook (vertical and horizontal)
+	// check for queens and rooks (vertical and horizontal)
 	for (int i = kingPos.x - 1; i > -1; i--) 
 	{ // check left
 		if (TestBoard.getPiece(i, kingPos.y))
@@ -105,10 +103,10 @@ bool GameEngine::isStillCheck(std::string move) // TODO
 				return true;
 		}
 	}
-	// end queen and rook
+	// end queens and rooks
 
 
-	// check for queen and bishop (radiant)
+	// check for queens and bishops (radiant)
 	for (int i = 1; i < 8; i++)
 		if (kingPos.x + i < 8 && kingPos.y + i < 8)
 		{ // check up-right
@@ -161,10 +159,10 @@ bool GameEngine::isStillCheck(std::string move) // TODO
 					return true;
 			}
 		}
-	// end queen and bishop
+	// end queens and bishops
 
 
-	// check for knight
+	// check for knights
 
 	// up-right
 	if (kingPos.x + 1 < 8 && kingPos.y + 2 < 8)
@@ -214,9 +212,9 @@ bool GameEngine::isStillCheck(std::string move) // TODO
 				&& TestBoard.getPiece(kingPos.x - 2, kingPos.y - 1)->isWhite() != playerTurn)
 				return true;
 
-	// end knight
+	// end knights
 
-	// pawn
+	// pawns
 	if (playerTurn) // white king
 	{
 		if (kingPos.x - 1 > -1 && kingPos.y + 1 < 8)
@@ -253,7 +251,7 @@ bool GameEngine::isStillCheck(std::string move) // TODO
 		}
 	}
 
-	// end pawn
+	// end pawns
 
 	return check;
 }
@@ -286,7 +284,7 @@ bool GameEngine::isPseudoLegal(std::string move) // doesn't check pins
 
 			// en-passant
 			if (ChessBoard.getPiece(prevPos)->isWhite() && prevPos.y == 4)
-			{
+			{ // white en-passant
 				std::string enPassant = "";
 				enPassant += char(nextPos.x + 97);
 				enPassant += char(nextPos.y + 49 + 1);
@@ -301,7 +299,7 @@ bool GameEngine::isPseudoLegal(std::string move) // doesn't check pins
 				}
 			}
 			else if (prevPos.y == 3)
-			{
+			{ // black en-passant
 				std::string enPassant = "";
 				enPassant += char(nextPos.x + 97);
 				enPassant += char(nextPos.y + 49 - 1);
@@ -318,7 +316,7 @@ bool GameEngine::isPseudoLegal(std::string move) // doesn't check pins
 		}
 
 		if (ChessBoard.getPiece(prevPos)->checkLegality(prevPos, nextPos))
-		{ // blocking
+		{ // blocked
 			return !ChessBoard.getPiece(nextPos);
 		}
 	}
@@ -328,7 +326,7 @@ bool GameEngine::isPseudoLegal(std::string move) // doesn't check pins
 	{ // check if nothing is in the way
 
 		if (dy == 0)
-		{
+		{ // for horizontal movement
 			if (dx > 0)
 			{
 				for (int i = 1; i < dx; i++)
@@ -341,7 +339,7 @@ bool GameEngine::isPseudoLegal(std::string move) // doesn't check pins
 			}
 		}
 		if (dx == 0)
-		{
+		{ // for vertical movement
 			if (dy > 0)
 			{
 				for (int i = 1; i < dy; i++)
@@ -354,7 +352,7 @@ bool GameEngine::isPseudoLegal(std::string move) // doesn't check pins
 			}
 		}
 		if (std::abs(dx) == std::abs(dy))
-		{
+		{ // for radiant movement
 			for (int i = 1; i < std::abs(dx); i++)
 			{
 				if (dx > 0 && dy > 0)
@@ -460,8 +458,10 @@ void GameEngine::promote(std::string pos)
 		pWindow.display();
 	}
 
+	promotions += char(turn);
+	promotions += choice;
 	sf::Vector2i promPos = sf::Vector2i(int(pos[0]) - 97, int(pos[1]) - 49);
-	ChessBoard.take(promPos);
+	ChessBoard.take(promPos); // substitute the pawn
 	ChessBoard.place(promPos, choice, playerTurn);
 }
 
@@ -496,6 +496,8 @@ void GameEngine::play()
 					gameState = "game";
 					turnsWithNoCapture = 0;
 					backgroundTexture.loadFromFile("img/board.bmp");
+					turn = 0;
+					promotions = "";
 				}
 			
 			///////////
@@ -538,10 +540,15 @@ void GameEngine::play()
 						// convert move to chess notation
 						std::string tempMove = convert2Chess(lastPosition) + convert2Chess(nextPosition);
 
-						if (isValidMove(tempMove)) {
+						if (isValidMove(tempMove)) 
+						{
 							ChessBoard.getPiece(draggedCoords)->getSprite().setPosition(nextPosition);
+
 							if (ChessBoard.getPiece(int(temp.x / 50), int(temp.y / 50)))
 								turnsWithNoCapture++;
+							else
+								turnsWithNoCapture = 0;
+
 							ChessBoard.movePiece(tempMove);
 							position += tempMove + " ";
 
@@ -555,6 +562,7 @@ void GameEngine::play()
 							}
 
 							playerTurn = !playerTurn;
+							turn++;
 							updateGameState();
 							if (gameState == "draw")
 								backgroundTexture.loadFromFile("img/boardDraw.bmp");
@@ -577,10 +585,10 @@ void GameEngine::play()
 
 		window.draw(Background);
 		
-		if(dragging)
+		if(dragging) // dragging animation
 			ChessBoard.getPiece(draggedCoords)->getSprite().setPosition(mousePosition.x - draggingDistance.x, mousePosition.y - draggingDistance.y);
 	
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < 8; i++) { // draw the pieces
 			for (int j = 0; j < 8; j++) {
 				if (ChessBoard.getPiece(i, j))
 					window.draw(ChessBoard.getPiece(i, j)->getSprite());

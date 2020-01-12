@@ -7,16 +7,20 @@ class Piece
 {
 protected:
 	bool colour; // white = 1, black = 0
-	std::string type;
-	sf::Sprite sprite;
+	std::string type; // pawn / rook / knight / bishop / queen / king
+	sf::Sprite sprite; // piece's sprite
 public:
-	void setColour(bool);
-	bool isWhite();
-	void setType(std::string);
-	std::string getType();
-	sf::Sprite& getSprite();
-	static sf::Texture textures[12];
-	virtual bool checkLegality(sf::Vector2i, sf::Vector2i) = 0;
+	void setColour(bool); // white = 1, black = 0
+	bool isWhite(); // white = 1, black = 0
+
+	void setType(std::string); // pawn / rook / knight / bishop / queen / king
+	std::string getType(); // pawn / rook / knight / bishop / queen / king
+
+	sf::Sprite& getSprite(); // get &sprite
+
+	static sf::Texture textures[12]; // static for textures
+
+	virtual bool checkLegality(sf::Vector2i, sf::Vector2i) = 0; // is this move legal?
 };
 
 
